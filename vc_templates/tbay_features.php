@@ -49,7 +49,10 @@ if ( !empty($items) ):
 						<?php if (isset($img[0]) && $img[0]) { ?>
 					    	<div class="fbox-image">
 					    		<div class="image-inner tbay-image-loaded">
-					    			<?php puca_tbay_src_image_loaded($img[0], array('alt' => $item['title']) ); ?>
+					    			<?php 
+					    				$image_alt  = get_post_meta( $item['image'], '_wp_attachment_image_alt', true);
+					    				puca_tbay_src_image_loaded($img[0], array('alt'=> $image_alt)); 
+					    			?>
 					    		</div>
 					    	</div>
 						<?php } ?>

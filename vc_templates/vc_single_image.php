@@ -77,14 +77,16 @@ switch ( $source ) {
 		}
 
 		$custom_src = vc_get_image_by_size($img_id, $img_size);
+		$image_alt  = get_post_meta( $img_id, '_wp_attachment_image_alt', true);
 
 		if( is_array($custom_src) ) {
 			$custom_src = $custom_src['0'];
 		}
 
-		$img = array(
+		$img = array( 
 				'thumbnail' => puca_tbay_src_image_loaded($custom_src, array(
 				'class' => 'vc_single_image-img',
+				'alt' => $image_alt
 			), '' , false),
 		);
 
@@ -103,8 +105,8 @@ switch ( $source ) {
 
 		$custom_src = $custom_src ? esc_attr( $custom_src ) : $default_src;
 
-		$img = array(
-			'thumbnail' => puca_tbay_src_image_loaded($custom_src, array('class' => 'vc_single_image-img'), $hwstring , false),
+		$img = array( 
+			'thumbnail' => puca_tbay_src_image_loaded($custom_src, array('class' => 'vc_single_image-img', 'alt' => ""), $hwstring , false),
 		);
 
 		break;

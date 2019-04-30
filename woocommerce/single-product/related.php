@@ -43,8 +43,9 @@ if($rows) {
 
 $active_theme = puca_tbay_get_part_theme();
 
+$show_product_releated = puca_tbay_get_config('show_product_releated', true);
  
-if ( $related_products ) : ?> 
+if ( $related_products && $show_product_releated ) : ?> 
 
 	<div class="related products widget" id="product-related">
 		<h3 class="widget-title"><span><?php esc_html_e( 'Related Products', 'puca' ); ?></span></h3>

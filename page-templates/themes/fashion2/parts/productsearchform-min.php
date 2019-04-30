@@ -1,6 +1,6 @@
 <?php if ( puca_tbay_get_config('show_searchform') ): ?>
 
-	<div class="tbay-search-form tbay-search-min">
+	<div class="tbay-search-form tbay-search-min tbay-search-ajax">
 		<form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get">
 			<div class="form-group">
 				<div class="input-group">

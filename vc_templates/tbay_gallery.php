@@ -44,7 +44,10 @@ if ( !empty($images) ):
 					<?php if ( !empty($img) && isset($img[0]) ): ?>
 						<div class="image" style="width:<?php echo esc_attr($bcol); ?>%">
 							<a class="lightbox-gallery tbay-image-loaded" href="<?php echo esc_url($img[0]); ?>" class="fancybox ">
-	                    		<?php puca_tbay_src_image_loaded($img[0]); ?>
+                    			<?php 
+				    				$image_alt  = get_post_meta( $image, '_wp_attachment_image_alt', true);
+				    				puca_tbay_src_image_loaded($img[0], array('alt'=> $image_alt)); 
+				    			?>
 	                    	</a>
 	                    </div>
 	                <?php endif; ?>

@@ -68,7 +68,7 @@ $classes = 'col-xlg-'.$largedesktop.' col-lg-'.$desktop.' col-xs-'. $mobile .' c
 					<div class="item-cat">
 						<?php if ( !empty($image) ) { ?>
 							<a class="cat-img tbay-image-loaded" href="<?php echo esc_url($cat_link); ?>">
-								<?php puca_tbay_src_image_loaded($image); ?>
+                    			<?php puca_tbay_src_image_loaded($image, array('alt'=> $cat_name )); ?>
 							</a>
 						<?php } ?>
 

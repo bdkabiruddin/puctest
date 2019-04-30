@@ -177,15 +177,9 @@ function puca_tbay_scripts() {
 	}
 	wp_enqueue_style( 'puca-template', $css_path, array(), PUCA_THEME_VERSION );
 	
-	$footer_style = puca_tbay_print_style_footer();
-	if ( !empty($footer_style) ) {
-		wp_add_inline_style( 'puca-template', $footer_style );
-	}
+	$vc_style = puca_tbay_print_vc_style(); 
 
-	$custom_style = puca_tbay_custom_styles();
-	if ( !empty($custom_style) ) {
-		wp_add_inline_style( 'puca-template', $custom_style );
-	}
+	wp_add_inline_style( 'puca-template', $vc_style );
 
 	wp_enqueue_style( 'puca-style', PUCA_THEME_DIR . '/style.css', array(), PUCA_THEME_VERSION );
 	
@@ -258,9 +252,6 @@ function puca_tbay_scripts() {
 	}
 
 	wp_enqueue_style( 'puca-style', PUCA_THEME_DIR . '/style.css', array(), '1.0' );
-	
-	wp_register_script( 'socialpixel', get_template_directory_uri() . "/js/socialpixel.js", array('jquery') );
-	wp_enqueue_script( 'socialpixel' );
 
 	global $wp_query; 
 
@@ -286,20 +277,6 @@ function puca_tbay_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'puca_tbay_scripts', 100 );
 
-if ( !function_exists('puca_tbay_head_scripts') ) {
-	function puca_tbay_head_scripts() {
-		if( !is_admin()) {
-		    wp_dequeue_script('jquery');
-		    wp_enqueue_script('jquery-3x', PUCA_SCRIPTS . '/jquery' . PUCA_MIN_JS . '.js', false, '3.3.1');
-		    wp_dequeue_script('jquery-migrate'); 
-		    wp_enqueue_script('jquery-migrate-3x', PUCA_SCRIPTS . '/jquery-migrate' . PUCA_MIN_JS . '.js', array('jquery'), '3.0.0'); 
-
-		    define( 'TBAY_JQUERY_REMOVE_CORE_OLD', true );
-		}
-	}
-	add_action('wp_head','puca_tbay_head_scripts', -9999); 
-}
-
 if ( !function_exists('puca_tbay_footer_scripts') ) {
 	function puca_tbay_footer_scripts() {
 		if ( puca_tbay_get_config('footer_js') != "" ) {
@@ -320,198 +297,7 @@ if ( !function_exists('puca_tbay_remove_fonts_redux_url') ) {
 	add_action('wp_enqueue_scripts', 'puca_tbay_remove_fonts_redux_url', 9999);
 }
 
-add_filter( 'wc_city_select_cities', 'my_cities' );
-function my_cities( $cities ) {
-	$cities['SA'] = array(
-        'الرياض   Riyadh',
-		'جدة   Jeddah',
-		'ابها   Abha',
-		'احد رفيدة   Ahad Rafidah',
-		'الدوادمي   Duwadimi',
-		'الاحساء   Al Ahsa',
-		'عرعر   Arar',
-		'الباحة   Baha',
-		'بيشة   Bish',
-		'الدمام   Dammam',
-		'الدرعية   Diriyah',
-		'الظهران   Dhahran',
-		'جيزان   Jazan',
-		'حفر الباطن   Hafar Al Baten',
-		'حائل   Hail',
-		'الجوف   Al Jouf',
-		'جبيل   Jubail',
-		'خميس مشيط   Khamis Mushayt',
-		'الخرج   Kharj',
-		'الخبر   Khubar',
-		'مكة المكرمة   Makkah',
-		'المدينة المنورة   Madinah',
-		'نجران   Najran',
-		'قطيف   Qatif',
-		'القريات   Qurayyat',
-		'رفحة   Rafha',
-		'سيهات   Sayhat',
-		'شرورة   Sharourah',
-		'تبوك   Tabuk',
-		'الطائف   Taif',
-		'تاروت   Tarut (Darin)',
-		'طريف   Turayf',
-		'وادي الدواسر   Wadi Al-Dawasir',
-		'ينبع   Yanbu',
-		'القنفذة   Qunfudah',
-		'المجمعة   Majmaah',
-		'مهد الذهب   Mahd Ad Dhahab',
-		'الخفجي   Khafji',
-		'بريدة   Buraydah',
-		'عنيزة   Unayzah',
-		'الرس   Rass',
-		'سكاكا   Skakah',
-		'بقيق‎   Buqaiq',
-		'رأس تنورة   Ras Tanura',
-		'عفيف   Afif',
-		'الأفلاج   Al Aflaj (Layla)',
-		'ساجِر   Sajir',
-		'شقراء   Shaqra',
-		'الزلفي   Zulfi',
-		'النماص   Namas',
-		'السليل‎   Sulayyil',
-		'بلجرشي‎   Baljurashi',
-		'المجارده   Majardah',
-		'الخرمة   Khurma',
-		'رانيا   Ranyah',
-		'تربه   Turbah',
-		'البكيرية   Bukayriyah',
-		'تثليث   Tathlith',
-		'المذنب   Midhnab',
-		'القويعيه   Quwayiyah',
-		'الظهران الجنوب   Dhahran Al Janoub',
-		'أبوعريش  Abu Areish',
-		'سراة عبيدة   Sarat Abida',
-		'المخواه   Mukhwah',
-		'سبت العلايا   Sapt Al Alaya',
-		'تنومة   Tanumah',
-		'محايل عسير   Mahayel Asir',
-		'النعيرية   Nairiyah',
-		'الهفوف   Hufuf',
-		'صبيا   Sabya',
-		'دومة الجندل   Dawmat Al Jandal',
-		'املج   Ummlujj',
-		'العلا   Ula',
-		'صامطه   Samtah',
-		'الطوال   At Tuwal',
-		'الدرب   Darb',
-		'ضبا   Dhuba',
-		'طبرجل   Tabarjal',
-		'تيماء   Taima',
-		'الثقبة   Thqbah',
-		'صفوى   Safwa',
-		'رابغ   Rabigh',
-		'رجال ألمع   Rijal Almaa',
-		'الدائر   Al Dayer',
-		'رياض الخبراء   Riyadh Al Khabra',
-		'المزاحمية   Muzahmiyah',
-		'القرية العليا   Qarya Al Uliya',
-		'الوجه   Wajh',
-		'عنك   Anak',
-		'حوطة بني تميم   Hawtat Bani Tamim',
-		'رماح   Rumah',
-		'بيش   Baysh',
-		'البدايع   Badaya',
-		'الحناكية   Hanakiyah',
-		'الليث   Lith',
-		'عيون الجواء   Uyun Al Jiwa',
-		'طريب   Tarib',
-		'بدر   Badr',
-		'خليص   Khulais',
-		'قلوة   Qilwah',
-		'العقيق   Aqiq',
-		'المندق   Mandaq',
-		'Rafayaa Al Gimsh',
-		'الجموم   Jamoum',
-		'الأرطاوية   Artawiyah',
-		'أحد المسارحة Ahad Masarha',
-		'الاسياح   Alasyah',
-		'البدائع   albadayeh',
-		'البرك   bark',
-		'الجبيل   Jubail',
-		'الجش   Jash',
-		'الحرجة   harjah',
-		'الحوية   Alhaweyah',
-		'الخماسين   Khamasin',
-		'الرويضة   Ruwaidah',
-		'السفانية   safaneyah',
-		'الشرائع   alsharaye',
-		'الشفا   shafa',
-		'الشقيق   Shuqayq',
-		'الصحنة   sahnah',
-		'العضيلية   ydayleyah',
-		'العوامية   awwameyah',
-		'العيون   Al Ayun',
-		'الغاط   Ghat',
-		'القحمة   Qahma',
-		'المبرز   Mubarraz',
-		'المظيلف   Mudhaylif',
-		'بارق   Bariq',
-		'بحرة   Bahrah',
-		'بللسمر   Bellasmar',
-		'ثادق   thadeq',
-		'جديد   jaded',
-		'جلاجل   Jalajel',
-		'حالة عمار   Halit Ammar',
-		'حرض   Harad',
-		'حريملاء   Huraymila',
-		'حقل   Haql',
-		'حوطة سدير   Hawtat Sudayr',
-		'خيبر   Khayber',
-		'رفحاء   rafha',
-		'رنية   ranyah',
-		'روضة سدير   rawdat sudair',
-		'ضباء   Duba',
-		'ضرما   Dhurma',
-		'ضمد   Dhamad',
-		'ظلم   Dhalim',
-		'عسفان   Asfan',
-		'عقلة الصقور   Uqlat As Suqur',
-		'تربة   Turbah (Makkah)',
-		'ينبع البحر   yanbu bahr',
-		'الدلم   Dilam',
-		'ثول   Thuwal',
-		'القيصومة   Qaysumah',
-		'فرسان   Farasan',
-		'شيبة   Shaibah',
-		'سلوى   Salwa',
-		'مستورة   Masturah',
-		'الكامل   Kamil',
-		'بحرة Bahara',
-		'الاطاولة Atawleh',
-		'بلجرشي BilJurashi',
-		'قلوة Gilwa',
-		'المندق Mandak',
-		'المظيلف Muthaleif',
-		'مخواه Mikhwa',
-		'خبر Khobar',
-		'سيهات Seihat',
-		'ضمد Damad',
-		'جيزان Gizan',
-		'الكربوس Karboos',
-		'الهفوف Hofuf',
-		'الأحساء Al Hassa',
-		'ذهبان Zahban',
-		'خليص Khulais',
-		'صعبر Saaber',
-		'التنعيم At Taniem',
-		"جعرانة Ja'araneh",
-		'الجموم Jumum',
-		'رنية Rania',
-		'الهدا Alhada',
-		'الليث Laith',
-		'عشيرة Ashayrah',
-		'عمق Amaq',
-		'البرك Birk',
-		'نمران Nimra',
-		'النوارية Nwariah'
-    );
-	return $cities;
-}
+
 add_action( 'admin_enqueue_scripts', 'puca_tbay_load_admin_styles' );
 function puca_tbay_load_admin_styles() {
 	wp_enqueue_style( 'puca-custom-admin', PUCA_STYLES . '/admin/custom-admin.css', false, '1.0.0' );
@@ -583,6 +369,7 @@ function puca_time_link() {
 }
 endif;
 
+if ( ! function_exists( 'puca_tbay_get_global_config' ) ) :
 function puca_tbay_get_global_config($name, $default = '') {
 	$options = get_option( 'puca_tbay_theme_options', array() );
 	if ( isset($options[$name]) ) {
@@ -590,6 +377,23 @@ function puca_tbay_get_global_config($name, $default = '') {
     }
     return $default;
 }
+endif;
+
+/**
+ * Check if Gutenberg is active
+ */
+function puca_is_gutenberg_active() {
+	global $wp_version;
+
+	if ( version_compare( $wp_version, '5', '>=' ) ) {
+		return true;
+	}
+
+	return false;
+}
+
+require_once( get_parent_theme_file_path( PUCA_VENDORS . '/gutenberg/functions.php') );
+
 
 function puca_tbay_get_load_plugins() {
 
@@ -766,246 +570,3 @@ if( in_array( 'projects-by-woothemes/projects.php', apply_filters( 'active_plugi
 require_once( get_parent_theme_file_path( PUCA_INC . '/skins/'.puca_tbay_get_theme().'/customizer.php') );
 
 require_once( get_parent_theme_file_path( PUCA_INC . '/skins/'.puca_tbay_get_theme().'/custom-styles.php') );
-
-/////////////////////////////////////////////////////////////////////////////////////////
-//@emptyops.com
-/////////////////////////////////////////////////////////////////////////////////////////
-function eo_custom_woocommerce_catalog_orderby( $sortby ) {
-    $sortby['custom_sales'] = 'Sort by Custom Order + Popularity';
-    return $sortby;
-}
-
-add_filter( 'woocommerce_default_catalog_orderby_options', 'eo_custom_woocommerce_catalog_orderby' );
-add_filter( 'woocommerce_catalog_orderby', 'eo_custom_woocommerce_catalog_orderby' );
-
-//Add Alphabetical sorting option to shop page / WC Product Settings
-add_filter( 'woocommerce_get_catalog_ordering_args',function($args){
-   global $wp_query;	
-  $orderby_value = isset( $_GET['orderby'] ) ? woocommerce_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
-
-    if ( 'custom_sales' == $orderby_value ) {				
-		$args['orderby'] = array('menu_order'=>'ASC','meta_value_num'=>'DESC');
-        $args['meta_key'] = 'total_sales'; 
-    }
-    return $args;
-},20,1);
-
-add_action( 'woocommerce_after_checkout_billing_form', 'add_jscript_checkout');
- 
-function add_jscript_checkout() {
-    echo '<script>jQuery(window).load(function(){ var email_cnt = jQuery("p#billing_email_field")[0].outerHTML; jQuery("p#billing_email_field").remove(); jQuery("p#billing_last_name_field").after(email_cnt); jQuery("p#billing_email_field").css("width","100%");});</script>';
-print_r(ABSPATH.'csv/districts.csv');
-if(file_exists(ABSPATH.'csv/districts.csv')){
-    echo "<script> var district_array = []; ";
-    $file = fopen(ABSPATH.'csv/districts.csv',"r");
-    
-    while(! feof($file))
-    {   
-        $curr = fgetcsv($file);
-        if($curr[0] != '' && $curr[0] != 'City')
-        {
-            
-            echo 'district_array.push({0 :"'.$curr[0].'", 1:"'.$curr[1].'", 2:"'.$curr[2].'"});';
-        }
-        
-    }
-    
-    fclose($file);
-    
-    echo  "function pass_city(m){
-             var city_val = m;  
-             if(city_val != ''){ 
-                    var only_city = city_val.replace(/[^a-zA-Z0-9]+/g, '');  
-                    jQuery('#billing_district').html(''); 
-                    for(var k=0; k<district_array.length; k++){ 
-                        if(typeof district_array[k] !== 'undefined'){ 
-                            if(district_array[k][0] == only_city ){ 
-                                var full_show = district_array[k][2]+' '+district_array[k][1];
-                                jQuery('#billing_district').append('<option value=\"'+full_show+'\">'+full_show+'</option>'); 
-                                
-                            } 
-                            
-                        } 
-                        
-                    }  
-                    
-                } 
-    }
-    function shipping_city_change(n){
-             var city_val = n;  
-            
-             if(city_val != ''){ 
-                    var only_city = city_val.replace(/[^a-zA-Z0-9]+/g, '');  
-                    jQuery('#shipping_district').html(''); 
-                    for(var k=0; k<district_array.length; k++){ 
-                        if(typeof district_array[k] !== 'undefined'){ 
-                            if(district_array[k][0] == only_city ){ 
-                                var full_show = district_array[k][2]+' '+district_array[k][1];
-                                jQuery('#shipping_district').append('<option value=\"'+full_show+'\">'+full_show+'</option>'); 
-                                
-                            } 
-                            
-                        } 
-                        
-                    }  
-                    
-                } 
-    }
-    
-    jQuery('#billing_city').change(function(){ 
-               
-        pass_city(jQuery(this).val());
-    });
-    setInterval(function(){   
-        jQuery('select[name=shipping_city]').on('change',function(){
-            shipping_city_change(jQuery(this).val());
-    }); 
-        
-    },5000);
-    
-    
-    jQuery(window).load(function(){  jQuery('#billing_district').html(''); jQuery('#shipping_district').html('');  if(jQuery('#billing_city').val() != '' ){ pass_city(jQuery('#billing_city').val()); }  if(jQuery('#shipping_city').val() != '' ){ shipping_city_change(jQuery('#shipping_city').val()); } });
-    </script>";
-    }
-
-}
-
-add_action( 'woocommerce_order_details_after_customer_details', 'action_woocommerce_order_details_after_customer_details', 10, 1 );
-
-function  action_woocommerce_order_details_after_customer_details($order){
-            echo "<script>var billing_dist = jQuery('table.woocommerce-table--custom-fields.shop_table.custom-fields tbody tr').first().find('td').text(); var shiping_dist = jQuery('table.woocommerce-table--custom-fields.shop_table.custom-fields tbody tr').last().find('td').text(); jQuery('table.shop_table.custom-fields').remove(); jQuery('.woocommerce-column.woocommerce-column--billing-address address p.woocommerce-customer-details--phone').before('<br>'+billing_dist); jQuery('.woocommerce-column.woocommerce-column--shipping-address address').append('<br>'+shiping_dist); </script>";
-}
-
-add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_product_add_to_cart_text' );
-add_filter( 'add_to_cart_text', 'woo_custom_product_add_to_cart_text' );            // < 2.1
-add_filter( 'woocommerce_product_add_to_cart_text', 'woo_custom_product_add_to_cart_text' );  // 2.1 +
-  
-function woo_custom_product_add_to_cart_text() {
-  
-    return __( 'أضف الى السلة', 'woocommerce' );
-  
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-////
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-
-add_filter('the_posts', 'variation_query');
-function variation_query($posts, $query = false) {
-	if (is_search() && !is_admin()) {
-		$ignoreIds = array(0);
-		foreach($posts as $post) {
-			$ignoreIds[] = $post->ID;
-		}
-		$matchedSku = get_parent_post_by_sku(get_search_query(), $ignoreIds);
-		if ($matchedSku) {
-			foreach($matchedSku as $product_id) {
-				$posts[] = get_post($product_id->post_id);
-			}
-		}
-		return $posts;
-	}
-	return $posts;
-}
-function get_parent_post_by_sku($sku, $ignoreIds) {
-	global $wpdb, $wp_query;
-	$wmplEnabled = false;
-	if(defined('WPML_TM_VERSION') && defined('WPML_ST_VERSION') && class_exists("woocommerce_wpml")){
-		$wmplEnabled = true;
-		$languageCode = ICL_LANGUAGE_CODE;
-	}
-	$results = array();
-	$ignoreIdsForMySql = implode(",", $ignoreIds);
-	$variationsSql = "
-		SELECT p.post_parent as post_id FROM $wpdb->posts as p
-		join $wpdb->postmeta pm
-		on p.ID = pm.post_id
-		and pm.meta_key='_sku'
-		and pm.meta_value LIKE '%$sku%'
-		join $wpdb->postmeta visibility
-		on p.post_parent = visibility.post_id
-		and visibility.meta_key = '_visibility'
-		and visibility.meta_value <> 'hidden'
-		";
-	if($wmplEnabled) {
-		$variationsSql .= "
-		join ".$wpdb->prefix."icl_translations t on
-		t.element_id = p.post_parent
-		and t.element_type = 'post_product'
-		and t.language_code = '$languageCode'
-		";
-	}
-	$variationsSql .= "
-		where 1
-		AND p.post_parent <> 0
-		and p.ID not in ($ignoreIdsForMySql)
-		and p.post_status = 'publish'
-		group by p.post_parent
-		";
-	$variations = $wpdb->get_results($variationsSql);
-	foreach($variations as $post) {
-		$ignoreIds[] = $post->post_id;
-	}
-	$ignoreIdsForMySql = implode(",", $ignoreIds);
-	$regularProductsSql = "
-		SELECT p.ID as post_id FROM $wpdb->posts as p
-		join $wpdb->postmeta pm
-		on p.ID = pm.post_id
-		and  pm.meta_key='_sku' 
-		AND pm.meta_value LIKE '%$sku%' 
-		join $wpdb->postmeta visibility
-		on p.ID = visibility.post_id    
-		and visibility.meta_key = '_visibility'
-		and visibility.meta_value <> 'hidden'
-		";
-	if($wmplEnabled) {
-		$regularProductsSql .= "
-		join ".$wpdb->prefix."icl_translations t on
-		t.element_id = p.ID
-		and t.element_type = 'post_product'
-		and t.language_code = '$languageCode'";
-	}
-	$regularProductsSql .= "
-		where 1
-		and (p.post_parent = 0 or p.post_parent is null)
-		and p.ID not in ($ignoreIdsForMySql)
-		and p.post_status = 'publish'
-		group by p.ID
-		";
-	$regular_products = $wpdb->get_results($regularProductsSql);
-	$results = array_merge($variations, $regular_products);
-	$wp_query->found_posts += sizeof($results);
-	return $results;
-}
-// define the woocommerce_order_formatted_shipping_address callback 
-function filter_woocommerce_order_formatted_shipping_address( $this_get_address_shipping, $instance ) { 
-
-print_r('<pre style="display:none;">');
-print_r($this_get_address_shipping);
-print_r('</pre>');
-
-    // make filter magic happen here... 
-    return $this_get_address_shipping; 
-}; 
-         
-// add the filter 
-add_filter( 'woocommerce_order_formatted_shipping_address', 'filter_woocommerce_order_formatted_shipping_address', 10, 2 );
-
-// define the woocommerce_order_formatted_shipping_address callback 
-function filter_woocommerce_order_formatted_billing_address( $this_get_address_shipping, $instance ) { 
-
-print_r('<pre style="display:none;">');
-print_r($instance->get_meta_data('_billing_district'));
-
-print_r(get_post_meta( $instance->get_id(), '_billing_district', true ));
-
-print_r($this_get_address_shipping);
-print_r('</pre>');
-
-    // make filter magic happen here... 
-    return $this_get_address_shipping; 
-}; 
-         
-// add the filter 
-add_filter( 'woocommerce_order_formatted_billing_address', 'filter_woocommerce_order_formatted_billing_address', 10, 2 );

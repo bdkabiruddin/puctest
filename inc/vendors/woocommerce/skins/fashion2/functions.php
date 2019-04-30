@@ -133,7 +133,7 @@ if ( ! function_exists( 'puca_woo_show_product_loop_outstock_flash' ) ) {
         $availability   = $product->get_availability();
         $return_content = '';
 
-        if ( $availability['availability'] == 'Out of stock') {
+        if ( ! $product->is_in_stock() ) {
            $return_content .= '<span class="out-stock">'. esc_html__('Out of stock', 'puca') .'</span>';
         }
 

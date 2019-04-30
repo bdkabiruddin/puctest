@@ -38,7 +38,10 @@ $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter
 		<?php $img = wp_get_attachment_image_src($image,'full'); ?>
 		<?php if ( !empty($img) && isset($img[0]) ): ?>
 				<div class="image tbay-image-loaded">
-                    <?php puca_tbay_src_image_loaded($img[0]); ?>
+                    <?php 
+                        $image_alt  = get_post_meta( $image, '_wp_attachment_image_alt', true);
+                        puca_tbay_src_image_loaded($img[0], array('alt' => $image_alt)); 
+                    ?>
             	</div>
         <?php endif; ?>
 	</div>

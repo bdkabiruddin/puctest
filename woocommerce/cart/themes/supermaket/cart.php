@@ -78,7 +78,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 						</span>
 
 						<span class="product-subtotal price" data-title="<?php esc_attr_e( 'Total', 'puca' ); ?>">
-							<p><?php echo esc_html__('stb:', 'puca');?></p>
+							<p><?php echo esc_html__('Subtotal:', 'puca');?></p>
 							<b><?php
 								echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key );
 							?>

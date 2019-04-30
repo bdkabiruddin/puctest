@@ -298,12 +298,16 @@ if ( !function_exists( 'puca_tbay_autocomplete_suggestions' ) ) {
 
 		$args = array(
 		    's'                   => $search_keyword,
-		    'post_type'           => 'product',
 		    'post_status'         => 'publish',
+		    'orderby'         	  => 'relevance',
 		    'posts_per_page'      => -1,
 		    'ignore_sticky_posts' => 1,
 		    'suppress_filters'    => false,
 		);
+
+		if ( isset($_REQUEST['post_type']) && $_REQUEST['post_type'] != 'all') {
+        	$args['post_type'] = $_REQUEST['post_type'];
+        } 
 
 		if ( isset( $_REQUEST['category'] ) && !empty($_REQUEST['category']) ) {
 		    $args['tax_query'] = array(

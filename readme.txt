@@ -191,6 +191,33 @@ Version 1.3.6 - November 03, 2018
 - [FIX] Fix bug Instagram doesn't work correctly.
 - [FIX] Fix bug "Ajax Search Form" doesn't work select with a category.
 
+Version 1.4 - December 13, 2018
+- Compatible with WordPress 5.0
+- Compatible Gutenberg Editor
+- Compatible with Woocommerce 3.5.2
+- Compatible with WPBakery Page Builder 5.6
+- Compatible with Slider Revolution 5.4.8.1
+- Compatible with WooCommerce Blocks 1.2 plugin
++ [REMOVE] Remove the file "puca\js\jquery.min.js"
++ [REMOVE] Remove the file "puca\js\jquery-migrate.min.js"
++ [REMOVE] Remove the file "puca\woocommerce\content-none.php"
+- [FIX] Fix "Alt" bug don't show in addons "vc_single_image"
+- [FIX] Fix label "Out of stock" can't translate in the language file.
+- [FIX] Fix addon "Categories Tabs 2" in skin "Supermarket 2" Custom link banner does not work
+- [FIX] Fix conflict js with "WOOF - WooCommerce Products Filter"
+- [FIX] Fix conflict js with "Dokan Vendor"
+
+Version 1.4.1 - January 03, 2019
+- Fix Breadcrumb Type
+
+Version 1.4.2 - January 22, 2019
+- [ADD NEW] Only Skin Supermarket 2 add new options "Categories in header" in Theme Options/Header/Header Config
+- Compatible with Woocommerce 3.5.4
+- Compatible with WPBakery Page Builder 5.6
+- Compatible with Slider Revolution 5.4.8.1
+- [CHANGE] Change text at the page cart: "Stb" = "Subtotal"
+- [FIX] Fix Out Of Date the file "puca\woocommerce\checkout\payment.php" 
+- [FIX] Add new template folder Dokan fix layout error.
 
 
 == Credits ==

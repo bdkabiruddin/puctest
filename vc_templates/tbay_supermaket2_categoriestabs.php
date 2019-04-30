@@ -171,12 +171,18 @@ $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter
                                             <?php if(isset($link) && !empty($link)) : ?>
                                                 <div class="img-banner tbay-image-loaded">
                                                     <a href="<?php echo esc_url($link); ?>">
-                                                        <?php puca_tbay_src_image_loaded($img[0]); ?>
+                                                        <?php 
+                                                            $image_alt  = get_post_meta( $banner, '_wp_attachment_image_alt', true);
+                                                            puca_tbay_src_image_loaded($img[0], array('alt'=> $image_alt)); 
+                                                        ?>
                                                     </a>
                                                 </div>
                                             <?php else : ?>
                                                 <div class="img-banner tbay-image-loaded">
-                                                    <?php puca_tbay_src_image_loaded($img[0]); ?>
+                                                    <?php 
+                                                        $image_alt  = get_post_meta( $banner, '_wp_attachment_image_alt', true);
+                                                        puca_tbay_src_image_loaded($img[0], array('alt'=> $image_alt)); 
+                                                    ?>
                                                 </div>
                                             <?php endif; ?>
                                             </div>  
@@ -192,7 +198,10 @@ $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter
                                                 <?php $img = wp_get_attachment_image_src($value,'full'); ?>
                                                 <?php if ( !empty($img) && isset($img[0]) ): ?>
                                                     <div class="image tbay-image-loaded">
-                                                        <?php puca_tbay_src_image_loaded($img[0]); ?>
+                                                        <?php 
+                                                            $image_alt  = get_post_meta( $value, '_wp_attachment_image_alt', true);
+                                                            puca_tbay_src_image_loaded($img[0], array('alt'=> $image_alt)); 
+                                                        ?>
                                                     </div>
                                                 <?php endif; ?>
                                             <?php } ?>
@@ -322,12 +331,18 @@ $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter
                                             <?php if(isset($link) && !empty($link)) : ?>
                                                 <div class="img-banner tbay-image-loaded">
                                                     <a href="<?php echo esc_url($link); ?>">
-                                                        <?php puca_tbay_src_image_loaded($img[0]); ?>
+                                                        <?php 
+                                                            $image_alt  = get_post_meta( $banner, '_wp_attachment_image_alt', true);
+                                                            puca_tbay_src_image_loaded($img[0], array('alt'=> $image_alt)); 
+                                                        ?>
                                                     </a>
                                                 </div>
                                             <?php else : ?>
                                                 <div class="img-banner tbay-image-loaded">
-                                                    <?php puca_tbay_src_image_loaded($img[0]); ?>
+                                                    <?php 
+                                                        $image_alt  = get_post_meta( $banner, '_wp_attachment_image_alt', true);
+                                                        puca_tbay_src_image_loaded($img[0], array('alt'=> $image_alt)); 
+                                                    ?>
                                                 </div>
                                             <?php endif; ?>
                                             </div> 
@@ -352,7 +367,10 @@ $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter
                                                     <?php $img = wp_get_attachment_image_src($value,'full'); ?>
                                                     <?php if ( !empty($img) && isset($img[0]) ): ?>
                                                         <div class="image tbay-image-loaded">
-                                                            <?php puca_tbay_src_image_loaded($img[0]); ?>
+                                                        <?php 
+                                                            $image_alt  = get_post_meta( $value, '_wp_attachment_image_alt', true);
+                                                            puca_tbay_src_image_loaded($img[0], array('alt'=> $image_alt)); 
+                                                        ?>
                                                         </div>
                                                     <?php endif; ?>
                                                 <?php } ?>

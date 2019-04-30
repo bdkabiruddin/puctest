@@ -15,11 +15,11 @@ $css_class        = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to
 <div class="<?php echo esc_attr($css_class); ?>">
     <?php for ($i=1; $i <= 5; $i++):
         $title = isset($atts['title'.$i]) ? $atts['title'.$i] : '';
-        $photo = isset($atts['photo'.$i]) ? $atts['photo'.$i] : '';
+        $image = isset($atts['photo'.$i]) ? $atts['photo'.$i] : '';
         $information = isset($atts['information'.$i]) ? $atts['information'.$i] : '';
         $link = isset($atts['link'.$i]) ? $atts['link'.$i] : '';
 
-        $img = wp_get_attachment_image_src($photo,'full');
+        $img = wp_get_attachment_image_src($image,'full');
     ?>
         
         <div class="col-lg-cus-5 p-relative feature-banner-inner">
@@ -32,6 +32,10 @@ $css_class        = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to
 
             	<?php if (isset($img[0]) && $img[0]) { ?>
                 	<div class="feature-image tbay-image-loaded">
+                        <?php 
+                            $image_alt  = get_post_meta( $image, '_wp_attachment_image_alt', true);
+                            puca_tbay_src_image_loaded($img[0], array('alt' => $image_alt)); 
+                        ?>
                         <?php puca_tbay_src_image_loaded($img[0], array('alt' => $title) ); ?>
                 	</div>
             	<?php } ?>

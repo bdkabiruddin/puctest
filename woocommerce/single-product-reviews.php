@@ -45,9 +45,10 @@ $average      = $product->get_average_rating();
 						<?php printf( esc_html__( '%s ratings','puca'),$count )  ; ?>
 					</li>	
 					<li class="media-body"><div class="review-summary-detal ">
-						<?php foreach( $counts as $key => $value ):  $pc = ($count == 0 ? 0: ( ($value/$count)*100  ) ); ?>
+						<?php foreach( array_reverse($counts) as $key => $value ):  $pc = ($count == 0 ? 0: ( ($value/$count)*100  ) ); ?>
 							<div class="review-summery-item row">
 								<div class="col-sm-1 col-lg-1 hidden-xs"></div>
+								<?php $key = 5 - $key; ?>
 								<div class="review-label col-sm-2 col-lg-2 col-xs-3"> <?php echo esc_html($key); ?> <?php 
 								 ($key == 1) ? esc_html_e('Star','puca') : esc_html_e('Stars','puca'); ?></div> 
 								<div class="col-sm-9 col-lg-9 col-xs-9">	
@@ -114,9 +115,9 @@ $average      = $product->get_average_rating();
 									'comment_notes_after'  => '',
 									'fields'               => array(
 										'author' => '<p class="comment-form-author form-group">' . '<span class="fa fa-user"></span>' .
-										            '<input id="author" class="form-control" placeholder="'. esc_html('Name', 'puca') .'" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30" aria-required="true" /></p>',
+										            '<input id="author" class="form-control" placeholder="'. esc_html__('Name', 'puca') .'" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30" aria-required="true" /></p>',
 										'email'  => '<p class="comment-form-email form-group"><span class="fa fa-envelope"></span>' .
-										            '<input id="email" placeholder="'. esc_html('Email', 'puca') .'" class="form-control" name="email" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30" aria-required="true" /></p>',
+										            '<input id="email" placeholder="'. esc_html__('Email', 'puca') .'" class="form-control" name="email" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30" aria-required="true" /></p>',
 									),
 									'label_submit'  => esc_html__( 'Submit', 'puca' ),
 									'logged_in_as'  => '',
@@ -137,7 +138,7 @@ $average      = $product->get_average_rating();
 								}
 
 
-								$comment_form['comment_field'] .= '<p class="comment-form-comment form-group"><span class="fa fa-pencil"></span><textarea id="comment" placeholder="'. esc_html('comment...', 'puca') .'"   class="form-control" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>';
+								$comment_form['comment_field'] .= '<p class="comment-form-comment form-group"><span class="fa fa-pencil"></span><textarea id="comment" placeholder="'. esc_html__('comment...', 'puca') .'"   class="form-control" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>';
 
 								comment_form( apply_filters( 'woocommerce_product_review_comment_form_args', $comment_form ) );
 							?>

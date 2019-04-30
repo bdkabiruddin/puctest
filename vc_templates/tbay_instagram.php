@@ -46,6 +46,9 @@ $css_class        = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to
 
 
     if ( !empty($username) ) {
+
+        if( !function_exists( 'tbay_framework_scrape_instagram' ) ) return;
+        
         $media_array = tbay_framework_scrape_instagram( $username );
 
         if ( is_wp_error( $media_array ) ) {
@@ -90,9 +93,7 @@ $css_class        = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to
                                     <span class="time elapsed-time"><?php  echo tbay_framework_time_ago($time,1); ?></span>
                                 <?php endif; ?>
 
-                                <?php 
-                                    puca_tbay_src_image_loaded($item[$size]);
-                                ?>
+                                <?php puca_tbay_src_image_loaded($item[$size], array('alt'=> $item['description'] )); ?>
                             </a>
                         </div>
 

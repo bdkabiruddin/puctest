@@ -16,6 +16,11 @@
  * @version     3.3.0
  */
 
+				 
+wp_enqueue_style('sumoselect');
+wp_enqueue_script('jquery-sumoselect');	
+		
+
 $columns				= apply_filters( 'loop_shop_columns', 4 );
 $screen_desktop 		= apply_filters( 'loop_shop_columns', 4 );
 $screen_desktopsmall 	= apply_filters( 'loop_shop_columns', 4 );

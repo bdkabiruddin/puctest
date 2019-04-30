@@ -233,6 +233,14 @@ if (!class_exists('puca_Redux_Framework_Config')) {
                         'title' => esc_html__('Keep Header', 'puca'),
                         'default' => false
                     ),
+                    array(
+                        'id' => 'enable_categoires',
+                        'type' => 'switch',
+                        'required' => array('active_theme','equals','supermaket2'),
+                        'title' => esc_html__('Categories in header', 'puca'),
+                        'subtitle' => esc_html__('Enable/disable Categories in header', 'puca'),
+                        'default' => true
+                    ),
                 )
             );
             $this->sections[] = array(
@@ -963,7 +971,8 @@ if (!class_exists('puca_Redux_Framework_Config')) {
                         'type'      => 'text',
                         'title'     => esc_html__( 'Custom Format', 'puca' ),
                         'desc'      => esc_html__('{price-diff} inserts the dollar amount off.', 'puca'). '</br>'.
-                                       esc_html__('{percent-diff} inserts the percent reduction (rounded).', 'puca'),
+                                       esc_html__('{percent-diff} inserts the percent reduction (rounded).', 'puca'). '</br>'.
+                                       esc_html__('{symbol} inserts the Default currency symbol.', 'puca'), 
                         'required'  => array('sale_tags','=', 'custom'),
                         'default'   => '- {percent-diff}%'
                     ), 

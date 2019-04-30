@@ -15,34 +15,7 @@
 	<meta name="viewport" content="width=device-width">
 	<link rel="profile" href="http://gmpg.org/xfn/11">
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
-<!--	<link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/droid-arabic-kufi" type="text/css"/> -->
 
-	<link rel="preload" href="/wp-content/themes/puca1/fonts/DroidArabicKufiBold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-	<link rel="preload" href="/wp-content/themes/puca1/fonts/DroidArabicKufiRegular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-	<link rel="preload" href="/wp-content/plugins/woocommerce-product-carousel-slider-pro/fonts/fontawesome-webfont.woff2?v=4.5.0" as="font" type="font/woff2" crossorigin="anonymous">
-	<link rel="preload" href="/wp-content/themes/puca1/fonts/Simple-Line-Icons.woff2?v=2.4.0" as="font" type="font/woff" crossorigin="anonymous">
-
-
-	
-
-
-<!-- Snap Pixel Code -->
-<script type='text/javascript'>
-(function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function()
-{a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};
-a.queue=[];var s='script';r=t.createElement(s);r.async=!0;
-r.src=n;var u=t.getElementsByTagName(s)[0];
-u.parentNode.insertBefore(r,u);})(window,document,
-'https://sc-static.net/scevent.min.js');
-
-snaptr('init', '5a7833a7-8dea-4d0f-b7c1-e4d6759bba93', {
-'user_email': '__INSERT_USER_EMAIL__'
-});
-
-snaptr('track', 'PAGE_VIEW');
-
-</script>
-<!-- End Snap Pixel Code -->
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
@@ -71,6 +44,10 @@ snaptr('track', 'PAGE_VIEW');
 					puca_tbay_get_page_templates_parts('offcanvas-cart','bottom');
 				}
 
+			endif;
+		} else {
+			if ( !(defined('PUCA_WOOCOMMERCE_CATALOG_MODE_ACTIVED') && PUCA_WOOCOMMERCE_CATALOG_MODE_ACTIVED) && defined('PUCA_WOOCOMMERCE_ACTIVED') && PUCA_WOOCOMMERCE_ACTIVED ):
+				puca_tbay_get_page_templates_parts('offcanvas-cart','right');
 			endif;
 		}
 

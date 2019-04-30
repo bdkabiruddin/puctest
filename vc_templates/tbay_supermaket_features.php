@@ -52,10 +52,16 @@ if ( !empty($items) ):
 					    		<div class="image-inner tbay-image-loaded">
 									<?php if ( isset($item['link_img']) && $item['link_img'] ): ?>
 										<a href="<?php echo esc_url($item['link_img']);?>">
-											<?php puca_tbay_src_image_loaded($img[0]); ?>
+								           <?php 
+                                                $image_alt  = get_post_meta( $item['image'], '_wp_attachment_image_alt', true);
+                                                puca_tbay_src_image_loaded($img[0], array('alt'=> $image_alt)); 
+                                            ?>
 										</a>
 									<?php else: ?>
-										<?php puca_tbay_src_image_loaded($img[0]); ?>
+							           <?php 
+                                            $image_alt  = get_post_meta( $item['image'], '_wp_attachment_image_alt', true);
+                                            puca_tbay_src_image_loaded($img[0], array('alt'=> $image_alt)); 
+                                        ?>
 									<?php endif; ?>
 					    		</div>
 					    	</div>

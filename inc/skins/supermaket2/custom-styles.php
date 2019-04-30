@@ -178,6 +178,11 @@ if ( !function_exists ('puca_tbay_custom_styles') ) {
 			{
 				background: <?php echo esc_html( puca_tbay_get_config('main_color') ) ?>;
 			}
+
+			.tbay-vertical-menu>.widget.widget_nav_menu .menu>li.active>a, .tbay-vertical-menu>.widget.widget_nav_menu .menu>li:hover>a {
+				color: <?php echo esc_html( puca_tbay_get_config('main_color') ) ?>;
+				border-right-color: <?php echo esc_html( puca_tbay_get_config('main_color') ) ?>;
+			} 
 			
 			.woocommerce table.wishlist_table tbody tr .product-remove a:hover,
 			.widget_deals_products .product-block .block-inner .flex-control-thumbs li img.flex-active {
@@ -269,7 +274,8 @@ if ( !function_exists ('puca_tbay_custom_styles') ) {
 			.metis.tparrows:hover,
 			.hades .tp-tab.selected .tp-tab-title:after, 
 			.hades .tp-tab:hover .tp-tab-title:after,
-			.widget_price_filter .ui-slider-horizontal .ui-slider-range {
+			.widget_price_filter .ui-slider-horizontal .ui-slider-range,
+			.widget_price_filter .ui-slider .ui-slider-handle  {
 				background: <?php echo esc_html( puca_tbay_get_config('main_color') ) ?> !important;
 			}
 			.widget-categoriestabs ul.nav-tabs > li:hover a, .widget_deals_products ul.nav-tabs > li:hover a {
@@ -525,7 +531,7 @@ if ( !function_exists ('puca_tbay_custom_styles') ) {
 			.widget-testimonials .owl-carousel .slick-arrow:hover,
 			.tbay-offcanvas .offcanvas-head .btn-toggle-canvas:hover, .tbay-offcanvas .offcanvas-head .btn-toggle-canvas:focus, .tbay-offcanvas-main .offcanvas-head .btn-toggle-canvas:hover, .tbay-offcanvas-main .offcanvas-head .btn-toggle-canvas:focus,
 			.woocommerce .cart-dropdown.cart-popup .dropdown-menu ul.cart_empty a.wc-continue, .cart-dropdown.cart-popup .dropdown-menu ul.cart_empty a.wc-continue,
-			body table.compare-list .add-to-cart td a{
+			body table.compare-list .add-to-cart td a{ 
 				background-color: <?php echo esc_html( puca_tbay_get_config('main_color') ) ?> !important;
 				border-color: <?php echo esc_html( puca_tbay_get_config('main_color') ) ?> !important;
 			}
@@ -538,12 +544,15 @@ if ( !function_exists ('puca_tbay_custom_styles') ) {
 			.widget-categoriestabs ul.nav-tabs > li.active, .widget_deals_products ul.nav-tabs > li.active{
 				border-color: <?php echo esc_html( puca_tbay_get_config('main_color') ) ?>  !important;
 			}
+
+			body table.compare-list .add-to-cart td a {
+				background-color: <?php echo esc_html( puca_tbay_get_config('main_color') ) ?>;
+				border-color: <?php echo esc_html( puca_tbay_get_config('main_color') ) ?>;
+			}
 			
 			.yith-compare a.added,
 			.product-block .button-wishlist .yith-wcwl-wishlistexistsbrowse.show a,
 			.product-block .button-wishlist .yith-wcwl-wishlistaddedbrowse.show a,
-			.widget-features .feature-box-group .feature-box:hover .icon-inner,
-			.widget-features.style2 .feature-box:hover .fbox-icon,
 			.more_products a:hover, .more_products a:focus,
 			.yith-wcqv-wrapper #yith-quick-view-content .carousel-controls-v3 .carousel-control:hover
 			{
@@ -560,7 +569,9 @@ if ( !function_exists ('puca_tbay_custom_styles') ) {
 			}
 			.top-cart .dropdown-menu .product-details .product-name:hover,
 			.tbay-category-fixed ul li a:hover, .tbay-category-fixed ul li a:active,
-			.flex-control-nav .slick-arrow:hover.owl-prev:after, .flex-control-nav .slick-arrow:hover.owl-next:after{
+			.flex-control-nav .slick-arrow:hover.owl-prev:after, .flex-control-nav .slick-arrow:hover.owl-next:after,
+			#tbay-header.header-v4 .logo-in-theme .category-inside-content li .hitarea:hover:after
+			{
 				color:<?php echo esc_html( puca_tbay_get_config('main_color') ) ?> !important;
 			}
 
@@ -1140,15 +1151,8 @@ if ( !function_exists ('puca_tbay_custom_styles') ) {
 
 		$custom_css = implode($new_lines);
 
-		wp_enqueue_style( 'puca-style', PUCA_THEME_DIR . '/style.css', array(), '1.0' );
-
-		wp_add_inline_style( 'puca-style', $custom_css );
-
-		if( class_exists( 'WooCommerce' ) && class_exists( 'YITH_Woocompare' ) ) {
-			wp_add_inline_style( 'puca-woocommerce', $custom_css );
-		}
+		return $custom_css;
 	}
 }
 
 ?>
-<?php add_action( 'wp_head', 'puca_tbay_custom_styles', 99 ); ?>

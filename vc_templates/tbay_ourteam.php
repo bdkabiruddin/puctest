@@ -40,7 +40,10 @@ if ( !empty($members) ):
 							<?php if ( isset($item['image']) && !empty($item['image']) ): ?>
 								<?php $img = wp_get_attachment_image_src($item['image'],'full'); ?>
 								<?php if ( !empty($img) && isset($img[0]) ): ?>
-				                    <?php puca_tbay_src_image_loaded($img[0]); ?>
+				                    <?php 
+		                    		 	$image_alt  = get_post_meta( $item['image'], '_wp_attachment_image_alt', true);
+		                    		 	puca_tbay_src_image_loaded($img[0], array('alt'=> $image_alt)); 
+				                    ?>
 				                <?php endif; ?>
 		                    <?php endif; ?>
 

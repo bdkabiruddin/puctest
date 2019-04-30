@@ -84,6 +84,10 @@ if ( !function_exists('puca_tbay_woocommerce_cart_position') ) {
             }
         } 
 
+        if( wp_is_mobile() ) {
+            $position = 'right';
+        }
+
 
         return $position;
 
@@ -282,6 +286,17 @@ if ( !function_exists('puca_tbay_get_products') ) {
                 break;
         }
 
+        if( 'yes' === get_option( 'woocommerce_hide_out_of_stock_items' ) ) {
+            $args['meta_query'][] =  array(
+                'relation' => 'AND',
+                array(
+                    'key' => '_stock_status',
+                    'value' => 'instock',
+                    'compare' => '=',
+                )
+            );
+        }
+
         woocommerce_reset_loop();
         
         return new WP_Query($args);
@@ -315,6 +330,11 @@ if ( !function_exists('puca_tbay_woocommerce_enqueue_styles') ) {
         wp_enqueue_script( 'puca-woocommerce-script', PUCA_SCRIPTS . '/woocommerce' . PUCA_MIN_JS . '.js', array( 'jquery', 'wc-single-product' ), PUCA_THEME_VERSION, true );
 
         wp_register_style( 'puca-woocommerce', $css_path , array() , PUCA_THEME_VERSION, 'all' );
+
+        $vc_style = puca_tbay_print_vc_style(); 
+        if( class_exists( 'WooCommerce' ) && class_exists( 'YITH_Woocompare' ) ) {
+            wp_add_inline_style( 'puca-woocommerce', $vc_style );
+        }
 
         wp_enqueue_style( 'puca-woocommerce' );
 
@@ -688,7 +708,7 @@ if ( !function_exists('puca_tbay_swap_images') ) {
     }
 }
 
-if ( puca_tbay_get_global_config('show_swap_image') ) {
+if ( !wp_is_mobile() && puca_tbay_get_global_config('show_swap_image') ) {
     remove_action('woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10);
     add_action('woocommerce_before_shop_loop_item_title', 'puca_tbay_swap_images', 10);
 }  
@@ -1304,7 +1324,7 @@ if ( ! function_exists( 'puca_woocommerce_meta_query' ) ) {
                 return $args;
                 break;
 
-            case 'recent_products':
+            case 'recent_product':
                 $args['orderby']    = 'date';
                 $args['order']      =  'DESC';
                 $args['meta_query'] = WC()->query->get_meta_query();
@@ -1315,7 +1335,7 @@ if ( ! function_exists( 'puca_woocommerce_meta_query' ) ) {
             case 'random_product':
                 $args['orderby']    = 'rand';
                 $args['meta_query'] = array();
-                $args['meta_query'][] = $woocommerce->query->stock_status_meta_query();
+                $args['meta_query'][] = WC()->query->stock_status_meta_query();
                 break;
 
             case 'on_sale':
@@ -1404,7 +1424,7 @@ if ( ! function_exists( 'puca_woocommerce_product_type_query' ) ) {
 //Add form fillter by product type
 if ( ! function_exists( 'puca_woocommerce_product_type_fillter' ) ) {
     function puca_woocommerce_product_type_fillter(){
-        $default = 'recent_products';
+        $default = 'recent_product';
         $options = array(
             'best_selling'      => esc_html__('Best Selling', 'puca'),
             'featured_product'  => esc_html__('Featured Products', 'puca'),
@@ -1647,9 +1667,10 @@ if ( !function_exists('puca_tbay_filter_config') ) {
         }
 
         if ( $product_type_fillter ) {
-            add_action( 'woocommerce_product_query', 'puca_woocommerce_product_type_query', 20 ,2 );
             add_action('woocommerce_before_shop_loop', 'puca_woocommerce_product_type_fillter', 25);
         }
+
+        add_action( 'woocommerce_product_query', 'puca_woocommerce_product_type_query', 20 ,2 );
 
         if ( $product_per_page_fillter ) {
              add_action('woocommerce_before_shop_loop', 'puca_woocommerce_product_per_page_fillter', 30);
@@ -2145,21 +2166,26 @@ if ( ! function_exists( 'puca_tbay_get_title_mobile' ) ) {
 
         if ( is_product_category() || is_category() ) {
             $title = single_cat_title();
-        }  else if ( is_search() ) {
+        }  elseif ( is_search() ) {
             $title = esc_html__('Search results for "','puca')  . get_search_query();
-        } else if ( is_tag() ) {
+        } elseif ( is_tag() ) {
             $title = esc_html__('Posts tagged "', 'puca'). single_tag_title('', false) . '"';
         } else if ( is_product_tag() ) {
             $title = esc_html__('Product tagged "', 'puca'). single_tag_title('', false) . '"';
-        } else if ( is_author() ) {
+        } elseif ( is_author() ) {
             global $author;
             $userdata = get_userdata($author);
             $title = esc_html__('Articles posted by ', 'puca') . $userdata->display_name;
-        } else if ( is_404() ) {
+        } elseif ( is_404() ) {
             $title = esc_html__('Error 404', 'puca');
-        } else if( is_shop () ) {
-            $title = esc_html__('shop','puca');
-        } else if (is_category()) {
+        } elseif( is_shop () ) {
+            $post_id = wc_get_page_id('shop');
+            if( isset($post_id) && !empty($post_id) ) {
+                $title = get_the_title($post_id);
+            } else {
+                $title = esc_html__('shop','puca');                
+            }
+        } elseif (is_category()) {
             global $wp_query;
             $cat_obj = $wp_query->get_queried_object();
             $thisCat = $cat_obj->term_id;
@@ -2176,11 +2202,16 @@ if ( ! function_exists( 'puca_tbay_get_title_mobile' ) ) {
             $title = get_the_time('Y');
         } elseif ( is_single()  && !is_attachment()) {
             $title = get_the_title();
+        } elseif ( defined('PUCA_TBAY_PORTFOLIO_ACTIVED') && PUCA_TBAY_PORTFOLIO_ACTIVED && is_project_category() ) {
+            $title = single_cat_title();
+        } elseif ( defined('PUCA_TBAY_PORTFOLIO_ACTIVED') && PUCA_TBAY_PORTFOLIO_ACTIVED && is_projects_archive() ) {
+            $projects_id = projects_get_page_id( 'projects' );
+            if( isset($projects_id) && !empty($projects_id) ) {
+                $title = get_the_title($projects_id);
+            } 
         } else {
             $title = get_the_title();
         }
-
-
         
         return $title;
     }
@@ -2306,6 +2337,48 @@ if ( ! function_exists( 'puca_woocommerce_category_image' ) ) {
     }
 }
 
+if ( !function_exists('puca_find_matching_product_variation') ) {
+    function puca_find_matching_product_variation( $product, $attributes ) {
+
+        foreach( $attributes as $key => $value ) {
+            if( strpos( $key, 'attribute_' ) === 0 ) {
+                continue;
+            }
+
+            unset( $attributes[ $key ] );
+            $attributes[ sprintf( 'attribute_%s', $key ) ] = $value;
+        }
+
+        if( class_exists('WC_Data_Store') ) {
+
+            $data_store = WC_Data_Store::load( 'product' );
+            return $data_store->find_matching_product_variation( $product, $attributes );
+
+        } else {
+
+            return $product->get_matching_variation( $attributes );
+
+        }
+
+    }
+}
+
+if ( ! function_exists( 'puca_woo_show_product_loop_sale_flash' ) ) {
+    function puca_get_default_attributes( $product ) {
+
+        if( method_exists( $product, 'get_default_attributes' ) ) {
+
+            return $product->get_default_attributes();
+
+        } else {
+
+            return $product->get_variation_default_attributes();
+
+        }
+
+    }
+}
+
 if ( ! function_exists( 'puca_woo_show_product_loop_sale_flash' ) ) {
     /*Change sales woo*/
     add_filter('woocommerce_sale_flash', 'puca_woo_show_product_loop_sale_flash', 10, 3);
@@ -2322,41 +2395,52 @@ if ( ! function_exists( 'puca_woo_show_product_loop_sale_flash' ) ) {
 
         $priceDiff = 0;
         $percentDiff = 0;
-        $regularPrice = '';
+        $regularPrice = ''; 
         $salePrice = $percentage = $return_content = '';
 
         $decimals   =  wc_get_price_decimals();
+        $symbol   =  get_woocommerce_currency_symbol();
 
-        $_product_sale   = $product->get_sale_price();
+        $_product_sale   = $product->is_on_sale();
         $featured        = $product->is_featured();
 
         if( $featured && $enable_label_featured ) {
             $return_content  = '<span class="featured">'. puca_tbay_get_config('custom_label_featured', esc_html__('Hot', 'puca')) .'</span>';
         }
 
-        if (!empty($product) && $product->is_in_stock() && $product->is_type( 'simple' )) {
+
+        if( !empty($product) && $product->is_type( 'variable' ) ){
+            $default_attributes = puca_get_default_attributes( $product );
+            $variation_id       = puca_find_matching_product_variation( $product, $default_attributes );
+
+            if( !empty($variation_id) ) {
+                $variation      = wc_get_product($variation_id);
+
+                $_product_sale  = $variation->is_on_sale();
+
+                $regularPrice   = get_post_meta($variation_id, '_regular_price', true);
+                $salePrice      = get_post_meta($variation_id, '_price', true);   
+            } else {
+                $_product_sale = false;
+            }
+
+        }  else {
             $salePrice = get_post_meta($product->get_id(), '_price', true);
             $regularPrice = get_post_meta($product->get_id(), '_regular_price', true);
-            
-            if (empty($regularPrice)) { //then this is a variable product
-                $variations = $product->get_available_variations();
-                $variation_id = $variations[0]['variation_id'];
-                $variation = new WC_Product_Variation($variation_id);
-                $regularPrice = $variation->regular_price;
-                $salePrice = $variation->sale_price;
-            }
-        }
+        } 
+
 
         if (!empty($regularPrice) && !empty($salePrice ) && $regularPrice > $salePrice ) {
             $priceDiff = $regularPrice - $salePrice;
             $percentDiff = round($priceDiff / $regularPrice * 100);
             
             $parsed = str_replace('{price-diff}', number_format((float)$priceDiff, $decimals, '.', ''), $format);
+            $parsed = str_replace('{symbol}', $symbol, $parsed);
             $parsed = str_replace('{percent-diff}', $percentDiff, $parsed);
-            $percentage .= '<span class="saled">'. esc_html__($parsed, 'puca').'</span>';
+            $percentage = '<span class="saled">'. $parsed .'</span>';
         }
 
-        if(!empty($_product_sale ))  {
+        if( !empty($_product_sale ) && $_product_sale )  {
             $percentage .= $return_content;
         } else {
             $percentage = '<span class="saled">'. esc_html__( 'Sale', 'puca' ) . '</span>';
@@ -2364,5 +2448,44 @@ if ( ! function_exists( 'puca_woo_show_product_loop_sale_flash' ) ) {
         }
 
         echo '<span class="onsale">'. $percentage. '</span>';
+    }
+}
+
+if ( ! function_exists( 'puca_woo_only_feature_product' ) ) {
+    /*Change sales woo*/
+    add_action( 'woocommerce_before_shop_loop_item_title', 'puca_woo_only_feature_product', 10 );
+    add_action( 'woocommerce_before_single_product_summary', 'puca_woo_only_feature_product', 10 );
+    function puca_woo_only_feature_product() {
+
+        global $product;
+
+        $_product_sale   = $product->is_on_sale();
+
+        $featured        = $product->is_featured();
+
+        if( !empty($product) && $product->is_in_stock() && $product->is_type( 'variable' ) ){
+            
+            $default_attributes = puca_get_default_attributes( $product );
+            $variation_id = puca_find_matching_product_variation( $product, $default_attributes );
+
+            if( !empty($variation_id) ) {
+                $variation      = wc_get_product($variation_id);
+
+                $_product_sale  = $variation->is_on_sale();             
+            }
+        }
+
+        $return_content = '';
+        if( $featured && !$_product_sale ) {
+
+            $enable_label_featured  =  puca_tbay_get_config('enable_label_featured', true);
+
+            if( $featured && $enable_label_featured ) {
+                $return_content  .= '<span class="featured not-sale">'. puca_tbay_get_config('custom_label_featured', esc_html__('Hot', 'puca')) .'</span>';
+            }  
+
+        }
+
+        echo '<span class="onsale">'. $return_content. '</span>';
     }
 }

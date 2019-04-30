@@ -197,31 +197,31 @@ if ( ! function_exists( 'puca_tbay_breadcrumbs' ) ) {
 					echo trim($before) . esc_html($post_type->labels->singular_name) . $after;
 					$title = $post_type->labels->singular_name;
 				}
-			}  elseif (is_attachment()) {
-				$parent = get_post($post->post_parent);
-				$cat = get_the_category($parent->ID); 
-				if( isset($cat) && !empty($cat) ) {
-				 $cat = $cat[0];
-				 echo get_category_parents($cat, TRUE, ' ' . $delimiter . ' ');
-				}
-				echo '<li><a href="' . esc_url( get_permalink($parent->ID) ) . '">' . esc_html($parent->post_title) . '</a></li> ' . esc_html($delimiter) . ' ';
+			} elseif (is_attachment()) {
+			    $parent = get_post($post->post_parent);
+			    $cat = get_the_category($parent->ID); 
+			    if( isset($cat) && !empty($cat) ) {
+			     $cat = $cat[0];
+			     echo get_category_parents($cat, TRUE, ' ' . $delimiter . ' ');
+			    }
+			    echo '<a href="' . esc_url( get_permalink($parent->ID) ) . '">' . esc_html($parent->post_title) . '</a></li> ' . esc_html($delimiter) . ' ';
+			    echo trim($before) . get_the_title() . $after;
+			    $title = get_the_title();
+			} elseif ( is_page() && !$post->post_parent ) {
 				echo trim($before) . get_the_title() . $after;
 				$title = get_the_title();
-			   } elseif ( is_page() && !$post->post_parent ) {
-				echo trim($before) . esc_html__('Page','puca') . $after;
-				$title = get_the_title();
 
-			} elseif ( is_page() && $post->post_parent ) {
+			}  elseif ( is_page() && $post->post_parent ) {
 				$parent_id  = $post->post_parent;
 				$breadcrumbs = array();
 				while ($parent_id) {
 					$page = get_page($parent_id);
-					$breadcrumbs[] = '<li><a href="' . esc_url( get_permalink($page->ID) ) . '">' . get_the_title($page->ID) . '</a></li>';
+					$breadcrumbs[] = '<a href="' . esc_url( get_permalink($page->ID) ) . '">' . get_the_title($page->ID) . '</a></li>';
 					$parent_id  = $page->post_parent;
 				}
 				$breadcrumbs = array_reverse($breadcrumbs);
-				foreach ($breadcrumbs as $crumb) echo trim($crumb) . ' ' . $delimiter . ' ';
-				echo trim($before) . esc_html__('Page','puca') . $after;
+				foreach ($breadcrumbs as $crumb) echo trim($crumb) . ' ' . trim($delimiter) . ' ';
+				echo trim($before) . get_the_title() . $after;
 				$title = get_the_title();
 			} elseif ( is_search() ) {
 				echo trim($before) . esc_html__('Search results for ','puca')  . get_search_query() . '"' . $after;
@@ -414,7 +414,50 @@ if ( !function_exists( 'puca_tbay_print_style_footer' ) ) {
 	 	 	}
     	}
 	}
-  	add_action('wp_head', 'puca_tbay_print_style_footer', 18);
+}
+
+if ( !function_exists( 'puca_tbay_print_style_megamenu' ) ) {
+	function puca_tbay_print_style_megamenu() {
+
+    		$args = array(
+                'post_type'   => 'tbay_megamenu',
+                'post_status' => 'publish',
+                'posts_per_page'      => -1,
+			);
+			$posts = get_posts($args);
+ 
+			$custom_cs = '';
+			foreach ( $posts as $post ) {
+	    		$custom_cs .= get_post_meta( $post->ID, '_wpb_shortcodes_custom_css', true );
+	 	 	}
+
+	 	 	return $custom_cs;
+
+	} 
+}
+
+if ( !function_exists( 'puca_tbay_print_vc_style' ) ) {
+	function puca_tbay_print_vc_style() {
+
+		$vc_style = '';
+		$footer_style = puca_tbay_print_style_footer();
+		if ( !empty($footer_style) ) {
+			$vc_style .= $footer_style;
+		}	
+		
+		$megamenu_style = puca_tbay_print_style_megamenu();
+		if ( !empty($megamenu_style) ) {
+			$vc_style .= $megamenu_style;
+		}	
+
+		$custom_style = puca_tbay_custom_styles();
+		if ( !empty($custom_style) ) {
+			$vc_style .= $custom_style;
+		}
+	
+
+		return $vc_style;
+	}
 }
 
 if ( ! function_exists( 'puca_tbay_paging_nav' ) ) {

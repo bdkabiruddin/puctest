@@ -82,8 +82,8 @@ $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter
                     }
 
                     if( !in_array($tab['category'], $cat_array_id) ) {
-                        $cat_category    = esc_html('all-categories','puca');
-                        $cat_name        = esc_html('All Categories','puca');
+                        $cat_category    = 'all-categories';
+                        $cat_name        = esc_html__('All Categories','puca');
                     } else {
                         $cat_category    = $tab['category'];
                         $category        = get_term_by( 'id', $cat_category, 'product_cat' );
@@ -125,7 +125,7 @@ $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter
                             <?php 
 
                             if( !in_array($tab['category'], $cat_array_id) ) {
-                                $cat_category    = esc_html('all-categories','puca');
+                                $cat_category    = 'all-categories';
                                 $loop            = puca_tbay_get_products( -1 , $type_product, 1, $number );
                                 $link            = get_permalink( wc_get_page_id( 'shop' ) );
                             } else {

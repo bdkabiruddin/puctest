@@ -43,10 +43,10 @@ if ( $woo_display == 'list' ) {
 	// Store column count for displaying the grid
 	if ( isset($pagi_columns) && !empty( $pagi_columns ) ) {
 		$woocommerce_loop['columns'] = $pagi_columns;
-	} else if ( empty( $woocommerce_loop['columns'] ) ) {
+	} else {
 		$woocommerce_loop['columns'] = apply_filters( 'loop_shop_columns', 4 );
 	}
-
+	
 	// Ensure visibility
 	if ( ! $product || ! $product->is_visible() ) {
 		return;

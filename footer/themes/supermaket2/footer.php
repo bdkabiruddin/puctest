@@ -94,7 +94,7 @@ $copyright 	= puca_tbay_get_config('copyright_text', '');
 				<?php endif; ?>
 			</div>
 			
-			<a href="#" id="back-to-top">
+			<a href="javascript:void(0);" id="back-to-top">
 				<p><?php esc_html_e('TOP', 'puca'); ?></p>
 			</a>
 		</div>
@@ -110,7 +110,7 @@ $copyright 	= puca_tbay_get_config('copyright_text', '');
 
 			<div class="more-to-top">
 			
-			<a href="#" id="back-to-top-mobile">
+			<a href="javascript:void(0);" id="back-to-top-mobile">
 				<i class="icon-arrow-up"></i>
 			</a>
 		</div>

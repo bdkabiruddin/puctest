@@ -1012,16 +1012,9 @@ if ( !function_exists ('puca_tbay_custom_styles') ) {
 		}
 
 		$custom_css = implode($new_lines);
-
-		wp_enqueue_style( 'puca-style', PUCA_THEME_DIR . '/style.css', array(), '1.0' );
-
-		wp_add_inline_style( 'puca-style', $custom_css );
-
-		if( class_exists( 'WooCommerce' ) && class_exists( 'YITH_Woocompare' ) ) {
-			wp_add_inline_style( 'puca-woocommerce', $custom_css );
-		}
+		
+		return $custom_css;
 	}
 }
 
 ?>
-<?php add_action( 'wp_head', 'puca_tbay_custom_styles', 99 ); ?>

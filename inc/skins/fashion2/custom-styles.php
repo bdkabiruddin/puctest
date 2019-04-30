@@ -232,7 +232,9 @@ if ( !function_exists ('puca_tbay_custom_styles') ) {
 			body.v13 .header-category-logo .widget-categories .item-cat:hover .cat-name,
 			.widget.widget-text-heading.subtitle-primary .subtitle,
 			.tbay-filter .change-view.active, .tbay-filter .change-view:hover, .tbay-filter .change-view:focus,
-			.ui-autocomplete.ui-widget-content li.list-header a
+			.ui-autocomplete.ui-widget-content li.list-header a,
+			.navbar-nav.megamenu > li.active > a,
+			.widget.woocommerce ins
 			{
 				color: <?php echo esc_html( puca_tbay_get_config('main_color') ) ?> !important;
 			}
@@ -387,6 +389,9 @@ if ( !function_exists ('puca_tbay_custom_styles') ) {
 			.woocommerce a.button:hover, .woocommerce button.button:hover, .woocommerce input.button:hover, .woocommerce #respond input#submit:hover {
 			    border-color: #000;
     			background: #000;	
+			}
+			.navbar-nav.megamenu > li.active:hover > a {
+				color: #fff !important;
 			}
 			.widget-categories.widget-grid .show-all:hover {
 				color: #fff !important;
@@ -1114,15 +1119,8 @@ if ( !function_exists ('puca_tbay_custom_styles') ) {
 
 		$custom_css = implode($new_lines);
 
-		wp_enqueue_style( 'puca-style', PUCA_THEME_DIR . '/style.css', array(), '1.0' );
-
-		wp_add_inline_style( 'puca-style', $custom_css );
-
-		if( class_exists( 'WooCommerce' ) && class_exists( 'YITH_Woocompare' ) ) {
-			wp_add_inline_style( 'puca-woocommerce', $custom_css );
-		}
+		return $custom_css;
 	}
 }
 
 ?>
-<?php add_action( 'wp_head', 'puca_tbay_custom_styles', 99 ); ?>

@@ -1,27 +1,5 @@
 <?php
 
-// Show/Hide related, upsells products
-if ( !function_exists('puca_tbay_woocommerce_related_upsells_products') ) {
-    function puca_tbay_woocommerce_related_upsells_products($located, $template_name) {
-        $content_none = get_template_directory() . '/woocommerce/content-none.php';
-        $show_product_releated = puca_tbay_get_config('show_product_releated');
-        if ( 'single-product/related.php' == $template_name ) {
-            if ( !$show_product_releated  ) {
-                $located = $content_none;
-            }
-        } elseif ( 'single-product/up-sells.php' == $template_name ) {
-            $show_product_upsells = puca_tbay_get_config('show_product_upsells');
-            if ( !$show_product_upsells ) {
-                $located = $content_none;
-            }
-        }
-
-        return apply_filters( 'puca_tbay_woocommerce_related_upsells_products', $located, $template_name );
-    }
-    add_filter( 'wc_get_template', 'puca_tbay_woocommerce_related_upsells_products', 10, 2 );
-}
-
-
 //remove heading tab single product
 if(!function_exists('puca_product_description_heading')){
   add_filter('woocommerce_product_description_heading',

@@ -167,9 +167,9 @@ if ( ! function_exists( 'puca_woo_show_product_loop_outstock_flash' ) ) {
         $availability   = $product->get_availability();
         $return_content = '';
 
-        if ( $product->is_on_sale() && $availability['availability'] == 'Out of stock' ) {
+        if ( $product->is_on_sale() && ! $product->is_in_stock() ) {
             $return_content .= '<span class="out-stock out-stock-sale"><span>'. esc_html__('Out of stock', 'puca') .'</span></span>';
-        } else if ( $availability['availability'] == 'Out of stock') {
+        } else if ( ! $product->is_in_stock() ) {
            $return_content .= '<span class="out-stock"><span>' . esc_html__('Out of stock', 'puca') .'</span></span>';
         }
 

@@ -1,6 +1,6 @@
 <?php if ( puca_tbay_get_config('show_searchform') ): ?>
 
-	<div class="tbay-search-form style2">
+	<div class="tbay-search-form style2 tbay-search-ajax">
 		<form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get">
 			<div class="form-group">
 				<div class="input-group">
@@ -34,7 +34,7 @@
 							<?php endif; ?>
 					  	</div> 
 				  	<?php endif; ?>
-				  		<input data-style="style1 home12" type="text" placeholder="<?php esc_html_e( 'Search for...', 'puca' ); ?>" name="s" required oninvalid="this.setCustomValidity('<?php esc_html_e('Enter at least 2 characters', 'puca'); ?>')" oninput="setCustomValidity('')" class="tbay-search form-control input-sm"/>
+				  		<input data-style="style1" type="text" placeholder="<?php esc_html_e( 'Search for...', 'puca' ); ?>" name="s" required oninvalid="this.setCustomValidity('<?php esc_html_e('Enter at least 2 characters', 'puca'); ?>')" oninput="setCustomValidity('')" class="tbay-search form-control input-sm"/>
 						<div class="tbay-preloader"></div>
 						<div class="button-group input-group-addon">
 							<button type="submit" class="button-search btn btn-sm"><i class="icon-magnifier"></i></button>

@@ -41,7 +41,10 @@ $_id = puca_tbay_random_key();
 			<?php $img = wp_get_attachment_image_src($thumbnail_image,'full'); ?>
 			<?php if ( !empty($img) && isset($img[0]) ): ?>
 					<div class="video-image tbay-image-loaded">
-						<?php puca_tbay_src_image_loaded($img[0]); ?>
+			           <?php 
+                            $image_alt  = get_post_meta( $thumbnail_image, '_wp_attachment_image_alt', true);
+                            puca_tbay_src_image_loaded($img[0], array('alt'=> $image_alt)); 
+                        ?>
 	            	</div>
 	        <?php endif; ?>
 

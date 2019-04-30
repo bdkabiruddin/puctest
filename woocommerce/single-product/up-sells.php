@@ -41,7 +41,9 @@ if($rows) {
 
 $active_theme = puca_tbay_get_part_theme();
 
-if ( $upsells ) : ?>
+$show_product_upsells = puca_tbay_get_config('show_product_upsells', true);
+
+if ( $upsells && $show_product_upsells ) : ?>
 
 	<div class="related upsells widget products">
 		<h3 class="widget-title"><?php esc_html_e( 'You may also like&hellip;', 'puca' ) ?></h3>

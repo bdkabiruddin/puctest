@@ -7,7 +7,7 @@ $copyright 	= puca_tbay_get_config('copyright_text', '');
 
 	</div><!-- .site-content -->
 
-	<?php if ( is_active_sidebar( 'newsletter-popup-sidebar' ) ) : ?>
+	<?php if ( is_active_sidebar( 'newsletter-popup-sidebar' ) && in_array( 'mailchimp-for-wp/mailchimp-for-wp.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) : ?>
 		<div id="newsletter-popup-sidebar" class="newsletter-popup-sidebar">
 			<?php dynamic_sidebar( 'newsletter-popup-sidebar' ); ?>
 		</div>
@@ -106,7 +106,7 @@ $copyright 	= puca_tbay_get_config('copyright_text', '');
 				<?php endif; ?>
 			</div>
 			
-			<a href="#" id="back-to-top">
+			<a href="javascript:void(0);" id="back-to-top">
 				<i class="icon-arrow-up"></i>
 			</a>
 		</div>
@@ -120,7 +120,7 @@ $copyright 	= puca_tbay_get_config('copyright_text', '');
 
 			<div class="more-to-top">
 			
-				<a href="#" id="back-to-top-mobile">
+				<a href="javascript:void(0);" id="back-to-top-mobile">
 					<i class="icon-arrow-up"></i>
 				</a>
 				

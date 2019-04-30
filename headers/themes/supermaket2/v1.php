@@ -1,3 +1,8 @@
+<?php 
+	$enable_categoires 	= puca_tbay_get_config('enable_categoires', true);
+	$class_search  		= ($enable_categoires) ? '6' : '9';
+?>
+
 <header id="tbay-header" class="site-header header-default header-v1 hidden-sm hidden-xs <?php echo (puca_tbay_get_config('keep_header', false) ? 'main-sticky-header' : ''); ?>">
 	<div class="tbay-topbar clearfix hidden-xs">
 		<div class="container">
@@ -29,10 +34,14 @@
 	<div class="tbay-aftermenu">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-3 sticky-off">
-					<?php puca_tbay_get_page_templates_parts('categorymenu'); ?>
-				</div>
-				<div class="col-md-6 sticky-off">
+
+				<?php if( $enable_categoires ) : ?>
+					<div class="col-md-3 sticky-off">
+						<?php puca_tbay_get_page_templates_parts('categorymenu'); ?>
+					</div>
+				<?php endif; ?>
+
+				<div class="col-md-<?php echo esc_attr( $class_search ); ?> sticky-off">
 					<div class="search">
 					<?php puca_tbay_get_page_templates_parts( 'productsearchform'); ?>
 					</div>
@@ -51,6 +60,7 @@
 					
 					<?php puca_tbay_get_page_templates_parts('menu-account'); ?>
 				</div>
+
 			</div>
 		</div>		
 	</div>

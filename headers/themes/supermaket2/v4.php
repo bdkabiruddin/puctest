@@ -1,3 +1,6 @@
+<?php 
+	$enable_categoires 	= puca_tbay_get_config('enable_categoires', true);
+?>
 <header id="tbay-header" class="site-header header-v4 hidden-sm hidden-xs <?php echo (puca_tbay_get_config('keep_header', false) ? 'main-sticky-header' : ''); ?>">
 	<div id="tbay-topbar" class="tbay-topbar hidden-sm hidden-xs clearfix">
 		<?php if(is_active_sidebar('top-shipping')) : ?>
@@ -16,7 +19,9 @@
 	  <div class="header-inner clearfix">
 			<div class="col-md-3">
 				<div class="logo-in-theme">
-					<?php puca_tbay_get_page_templates_parts( 'categorymenuimg', 'v4' ); ?>
+					<?php if( $enable_categoires ) : ?>
+						<?php puca_tbay_get_page_templates_parts( 'categorymenuimg', 'v4' ); ?>
+					<?php endif; ?>
 					<?php puca_tbay_get_page_templates_parts( 'logo', '02' ); ?>
 				</div>
 			</div>

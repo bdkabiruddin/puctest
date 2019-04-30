@@ -1,6 +1,6 @@
 <?php if ( puca_tbay_get_config('show_searchform') ): ?>
 	<?php $_id = puca_tbay_random_key(); ?>
-	<div class="tbay-search-form">
+	<div class="tbay-search-form tbay-search-ajax">
 		<form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get">
 			<div class="form-group">
 				<div class="input-group">

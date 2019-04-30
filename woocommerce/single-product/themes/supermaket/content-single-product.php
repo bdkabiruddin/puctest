@@ -9,6 +9,8 @@
  * @version     3.0.0
  */
 
+global $product;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -25,6 +27,15 @@ $tabs_position   =  apply_filters( 'woo_tabs_position_layout_single_product', 10
 
 if( !isset($sidebar_configs['left']) && !isset($sidebar_configs['right']) ) {
 	$active_full = true;
+}
+
+$show_product_releated 	= puca_tbay_get_config('show_product_releated', true);
+$show_product_upsells 	= puca_tbay_get_config('show_product_upsells', true);
+
+$upsells = $product->get_upsell_ids();
+
+if( (!$show_product_releated && !$show_product_upsells) || ( !$show_product_releated && sizeof( $upsells ) == 0 ) ) {
+	$active_full = false;
 }
 
 ?>
